@@ -46,17 +46,17 @@ module CurrencyConverter
 
     def == money
       check_type(money)
-      self.amount == money.convert_to(self.currency).amount
+      (self.amount).round(@@rnd) == (money.convert_to(self.currency).amount).round(@@rnd)
     end
 
     def > money
       check_type(money)
-      self.amount > money.convert_to(self.currency).amount
+      (self.amount).round(@@rnd) > (money.convert_to(self.currency).amount).round(@@rnd)
     end
 
     def < money
       check_type(money)
-      self.amount < money.convert_to(self.currency).amount
+      (self.amount).round(@@rnd) < (money.convert_to(self.currency).amount).round(@@rnd)
     end
 
     def + money
