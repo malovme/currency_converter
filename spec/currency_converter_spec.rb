@@ -15,11 +15,11 @@ RSpec.describe CurrencyConverter::Money do
     end
 
     it "sets base currency while setting conversion rates" do
-      expect CurrencyConverter::Money.base_currency.to eq 'EUR'
+      expect(CurrencyConverter::Money.base_currency).to eq 'EUR'
     end
 
     it "sets conversion rates while setting conversion rates" do
-      epect CurrencyConverter::Money.rates['USD'].to eq 1.11
+      expect(CurrencyConverter::Money.rates['USD']).to eq 1.11
     end
   end
 
