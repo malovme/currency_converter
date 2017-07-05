@@ -2,6 +2,7 @@ require "currency_converter/version"
 
 module CurrencyConverter
   class Money
+    @@rnd = 2
     @@base_currency = ''
     @@rates = {}
 
@@ -38,9 +39,46 @@ module CurrencyConverter
         self
       else
         rate = calculate_rate( self.currency, currency)
-        converted_amount = (self.amount * rate).round(2)
+        converted_amount = (self.amount * rate).round(@@rnd)
         self.class.new(converted_amount, currency)
       end
+    end
+
+    def == money
+      check_type(money)
+      self.amount == money.convert_to(self.currency).amount
+    end
+
+    def > money
+      check_type(money)
+      self.amount > money.convert_to(self.currency).amount
+    end
+
+    def < money
+      check_type(money)
+      self.amount < money.convert_to(self.currency).amount
+    end
+
+    def + money
+      check_type(money)
+      self.amount = (self.amount + money.convert_to(self.currency).amount).round(@@rnd)
+      self
+    end
+
+    def - money
+      check_type(money)
+      self.amount = (self.amount - money.convert_to(self.currency).amount).round(@@rnd)
+      self
+    end
+
+    def * multiplier
+      self.amount = (self.amount * multiplier).round(@@rnd)
+      self
+    end
+
+    def / divider
+      self.amount = (self.amount / divider).round(@@rnd)
+      self
     end
 
     private
@@ -53,6 +91,10 @@ module CurrencyConverter
       else
         @@rates[input_currency]/@@rates[output_currency]
       end
+    end
+
+    def check_type money
+      raise 'Money instance expected' unless money.is_a?(CurrencyConverter::Money)
     end
 
   end
