@@ -61,24 +61,32 @@ module CurrencyConverter
 
     def + money
       check_type(money)
-      self.amount = (self.amount + money.convert_to(self.currency).amount).round(@@rnd)
-      self
+      self.class.new(
+        (self.amount + money.convert_to(self.currency).amount).round(@@rnd),
+        self.currency
+      )
     end
 
     def - money
       check_type(money)
-      self.amount = (self.amount - money.convert_to(self.currency).amount).round(@@rnd)
-      self
+      self.class.new(
+        (self.amount - money.convert_to(self.currency).amount).round(@@rnd),
+        self.currency
+      )
     end
 
     def * multiplier
-      self.amount = (self.amount * multiplier).round(@@rnd)
-      self
+      self.class.new(
+        (self.amount * multiplier).round(@@rnd),
+        self.currency
+      )
     end
 
     def / divider
-      self.amount = (self.amount / divider).round(@@rnd)
-      self
+      self.class.new(
+        (self.amount / divider).round(@@rnd),
+        self.currency
+      )
     end
 
     private
