@@ -63,26 +63,53 @@ RSpec.describe CurrencyConverter::Money do
     end
   end
 
-  it "should convert one currency to another (return Money class object)"
-  it "should convert one currency to another (check amount)"
+  context "currency conversion" do
+    before do
+      CurrencyConverter::Money.conversion_rates('EUR', {
+          'USD'     => 1.11
+      })
+      @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+    end
 
-  it "should add moneys with same currency"
-  it "should substract moneys with same currency"
-  it "should multiply moneys with same currency"
-  it "should divide moneys with same currency"
+    it "should convert one currency to another (return Money class object)" do
+      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
+      expect(fifty_eur_in_usd).to be_instance_of(CurrencyConverter::Money)
+    end
 
-  it "should add moneys with different currencies"
-  it "should substract moneys with different currencies"
-  it "should multiply moneys with different currencies"
-  it "should divide moneys with different currencies"
+    it "should convert one currency to another (check amount)" do
+      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
+      expect(fifty_eur_in_usd.amount).to eq 55.50
+    end
 
-  it "should compare equality of moneys with same currency"
-  it "should compare equality of moneys with different currencies"
-  it "should consider two monetary amounts as equal if they agree up to the cents"
+    it "should convert one currency to another (check currency)" do
+      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
+      expect(fifty_eur_in_usd.currency).to eq 'USD'
+    end
+  end
 
-  it "should test greater than for moneys with same currency"
-  it "should test less than for moneys with same currency"
+  context "math operations with same currency" do
+    it "should add moneys with same currency"
+    it "should substract moneys with same currency"
+    it "should multiply moneys with same currency"
+    it "should divide moneys with same currency"
+  end
 
-  it "should test greater than for moneys with different currencies"
-  it "should test less than for moneys with different currencies"
+  context "math operations with differnt currencies" do
+    it "should add moneys with different currencies"
+    it "should substract moneys with different currencies"
+    it "should multiply moneys with different currencies"
+    it "should divide moneys with different currencies"
+  end
+
+  context "comparison" do
+    it "should compare equality of moneys with same currency"
+    it "should compare equality of moneys with different currencies"
+    it "should consider two monetary amounts as equal if they agree up to the cents"
+
+    it "should test greater than for moneys with same currency"
+    it "should test less than for moneys with same currency"
+
+    it "should test greater than for moneys with different currencies"
+    it "should test less than for moneys with different currencies"
+  end
 end
