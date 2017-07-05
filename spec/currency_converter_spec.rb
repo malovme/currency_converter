@@ -140,16 +140,31 @@ RSpec.describe CurrencyConverter::Money do
       })
       @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
       @fifty_usd = CurrencyConverter::Money.new(50, 'USD')
+      @fifty_five_half_usd = CurrencyConverter::Money.new(55.5, 'USD')
     end
 
-    it "should compare equality of moneys with same currency"
-    it "should compare equality of moneys with different currencies"
-    it "should consider two monetary amounts as equal if they agree up to the cents"
+    it "should compare equality of moneys with same currency" do
+      expect(@fifty_eur == CurrencyConverter::Money.new(50, 'EUR')).to be true
+    end
 
-    it "should test greater than for moneys with same currency"
-    it "should test less than for moneys with same currency"
+    it "should compare equality of moneys with different currencies" do
+      expect(@fifty_eur == @fifty_five_half_usd).to be true
+    end
 
-    it "should test greater than for moneys with different currencies"
-    it "should test less than for moneys with different currencies"
+    it "should test greater than for moneys with same currency" do
+      expect(@fifty_five_half_usd > @fifty_usd).to be true
+    end
+
+    it "should test less than for moneys with same currency" do
+      expect( @fifty_usd < @fifty_five_half_usd).to be true
+    end
+
+    it "should test greater than for moneys with different currencies" do
+      expect(@fifty_eur > @fifty_usd).to be true
+    end
+
+    it "should test less than for moneys with different currencies" do
+      expect(@fifty_usd < @fifty_eur).to be true
+    end
   end
 end
