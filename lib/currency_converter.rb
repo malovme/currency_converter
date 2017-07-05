@@ -14,7 +14,7 @@ module CurrencyConverter
       raise 'Currency argument required' if currency.nil?
 
       @amount = amount.to_f
-      @currency = currency.to_s.upcase
+      @currency = currency.to_s
     end
 
     def self.conversion_rates(base_currency, rates)
