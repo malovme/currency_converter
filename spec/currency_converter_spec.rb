@@ -67,7 +67,7 @@ RSpec.describe CurrencyConverter::Money do
     before do
       CurrencyConverter::Money.conversion_rates('EUR', {
           'USD'     => 1.11,
-          'GBP'     => 1.29
+          'GBP'     => 0.88
       })
       @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
       @fifty_usd = CurrencyConverter::Money.new(50, 'USD')
@@ -90,7 +90,7 @@ RSpec.describe CurrencyConverter::Money do
 
     it "should convert while convert not base currency to another not base" do
       fifty_usd_in_gbp = @fifty_usd.convert_to('GBP')
-      expect(fifty_usd_in_gbp.inspect).to eq '43.02 GBP'
+      expect(fifty_usd_in_gbp.inspect).to eq '39.64 GBP'
     end
 
     it "should convert while convert currency to same currency" do

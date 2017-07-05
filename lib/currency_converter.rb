@@ -89,7 +89,7 @@ module CurrencyConverter
       elsif output_currency == @@base_currency
         1/@@rates[input_currency]
       else
-        @@rates[input_currency]/@@rates[output_currency]
+        @@rates[output_currency]/@@rates[input_currency]
       end
     end
 
