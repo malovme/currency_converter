@@ -99,21 +99,49 @@ RSpec.describe CurrencyConverter::Money do
     end
   end
 
-  context "math operations with same currency" do
-    it "should add moneys with same currency"
-    it "should substract moneys with same currency"
-    it "should multiply moneys with same currency"
-    it "should divide moneys with same currency"
-  end
+  context "math operations" do
+    before do
+      CurrencyConverter::Money.conversion_rates('EUR', {
+          'USD'     => 1.11,
+      })
+      @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+      @fifty_usd = CurrencyConverter::Money.new(50, 'USD')
+    end
 
-  context "math operations with differnt currencies" do
-    it "should add moneys with different currencies"
-    it "should substract moneys with different currencies"
-    it "should multiply moneys with different currencies"
-    it "should divide moneys with different currencies"
+    it "should multiply moneys" do
+      expect((@fifty_eur * 2).inspect).to eq '100.00 EUR'
+    end
+
+    it "should divide moneys" do
+      expect((@fifty_eur / 2).inspect).to eq '25.00 EUR'
+    end
+
+    it "should add moneys with same currency" do
+      expect((@fifty_eur + @fifty_eur).inspect).to eq '100.00 EUR'
+    end
+
+    it "should substract moneys with same currency" do
+      expect((@fifty_eur - @fifty_eur).inspect).to eq '0.00 EUR'
+    end
+
+    it "should add moneys with different currencies" do
+      expect((@fifty_eur + @fifty_usd).inspect).to eq '95.05 EUR'
+    end
+
+    it "should substract moneys with different currencies" do
+      expect((@fifty_eur - @fifty_usd).inspect).to eq '4.95 EUR'
+    end
   end
 
   context "comparison" do
+    before do
+      CurrencyConverter::Money.conversion_rates('EUR', {
+          'USD'     => 1.11,
+      })
+      @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+      @fifty_usd = CurrencyConverter::Money.new(50, 'USD')
+    end
+
     it "should compare equality of moneys with same currency"
     it "should compare equality of moneys with different currencies"
     it "should consider two monetary amounts as equal if they agree up to the cents"
