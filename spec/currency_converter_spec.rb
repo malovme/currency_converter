@@ -7,8 +7,21 @@ RSpec.describe CurrencyConverter do
 end
 
 RSpec.describe CurrencyConverter::Money do
-  it "should set base currency while setting conversion rates"
-  it "should set conversion rates while setting conversion rates"
+  context "setting base currency and conversion rates" do
+    before do
+      CurrencyConverter::Money.conversion_rates('EUR', {
+          'USD'     => 1.11
+      })
+    end
+
+    it "sets base currency while setting conversion rates" do
+      expect CurrencyConverter::Money.base_currency.to eq 'EUR'
+    end
+
+    it "sets conversion rates while setting conversion rates" do
+      epect CurrencyConverter::Money.rates['USD'].to eq 1.11
+    end
+  end
 
   it "should be valid with integer amount and string currency"
   it "should be valid with float amount and symbol currency"
