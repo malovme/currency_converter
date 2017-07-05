@@ -23,15 +23,45 @@ RSpec.describe CurrencyConverter::Money do
     end
   end
 
-  it "should be valid with integer amount and string currency"
-  it "should be valid with float amount and symbol currency"
+  context "valid initialization" do
+    it "should be valid with integer amount and currency" do
+      fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+      expect(fifty_eur).to be_instance_of(CurrencyConverter::Money)
+    end
 
-  it "should be invalid without amount"
-  it "should be invalid without currency"
+    it "should be valid with float amount and currency" do
+      fifty_eur = CurrencyConverter::Money.new(49.99, 'EUR')
+      expect(fifty_eur).to be_instance_of(CurrencyConverter::Money)
+    end
+  end
 
-  it "should return amount"
-  it "should return currency"
-  it "should return inspect"
+  context "instance variables after valid initialization" do
+    before do
+      @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+    end
+
+    it "should return amount" do
+      expect(@fifty_eur.amount).to eq 50.00
+    end
+
+    it "should return currency" do
+      expect(@fifty_eur.currency).to eq 'EUR'
+    end
+
+    it "should return inspect" do
+      expect(@fifty_eur.inspect).to eq '50.00 EUR'
+    end
+  end
+
+  context "invalid initialization" do
+    it "should raise error without amount" do
+      expect { CurrencyConverter::Money.new(nil, 'EUR') }.to raise_error('Amount argument required')
+    end
+
+    it "should be invalid without currency" do
+      expect { CurrencyConverter::Money.new(50, nil) }.to raise_error('Currency argument required')
+    end
+  end
 
   it "should convert one currency to another (return Money class object)"
   it "should convert one currency to another (check amount)"
