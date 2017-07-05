@@ -20,6 +20,7 @@ And then execute:
 ```ruby
 CurrencyConverter::Money.conversion_rates('EUR', {
     'USD'     => 1.11,
+    'Bitcoin' => 0.0047,
     'GBP' => 0.8789
 })
 ```
@@ -61,9 +62,9 @@ twenty_dollars * 3         # => 60 USD
 #### Comparisons (also in different currencies):
 
 ```ruby
-twenty_dollars == Money.new(20, 'USD') # => true
+twenty_dollars == CurrencyConverter::Money.new(20, 'USD') # => true
 
-twenty_dollars == Money.new(30, 'USD') # => false
+twenty_dollars == CurrencyConverter::Money.new(30, 'USD') # => false
 ```
 
 ```ruby
@@ -73,7 +74,7 @@ fifty_eur_in_usd == fifty_eur          # => true
 ```
  
 ```ruby
-twenty_dollars > Money.new(5, 'USD')   # => true
+twenty_dollars > CurrencyConverter::Money.new(5, 'USD')   # => true
 
 twenty_dollars < fifty_eur             # => true
 ```
