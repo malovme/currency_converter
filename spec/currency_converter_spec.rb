@@ -66,24 +66,36 @@ RSpec.describe CurrencyConverter::Money do
   context "currency conversion" do
     before do
       CurrencyConverter::Money.conversion_rates('EUR', {
-          'USD'     => 1.11
+          'USD'     => 1.11,
+          'GBP'     => 1.29
       })
       @fifty_eur = CurrencyConverter::Money.new(50, 'EUR')
+      @fifty_usd = CurrencyConverter::Money.new(50, 'USD')
     end
 
     it "should convert one currency to another (return Money class object)" do
-      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
+      fifty_eur_in_usd = @fifty_eur.convert_to('USD')
       expect(fifty_eur_in_usd).to be_instance_of(CurrencyConverter::Money)
     end
 
-    it "should convert one currency to another (check amount)" do
-      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
-      expect(fifty_eur_in_usd.amount).to eq 55.50
+    it "should convert while convert base currency to another" do
+      fifty_eur_in_usd = @fifty_eur.convert_to('USD')
+      expect(fifty_eur_in_usd.inspect).to eq '55.50 USD'
     end
 
-    it "should convert one currency to another (check currency)" do
-      fifty_eur_in_usd = @fifty_eur.convert_to('USD') # => 55.50 USD
-      expect(fifty_eur_in_usd.currency).to eq 'USD'
+    it "should convert while convert another currency to base" do
+      fifty_usd_in_eur = @fifty_usd.convert_to('EUR')
+      expect(fifty_usd_in_eur.inspect).to eq '45.05 EUR'
+    end
+
+    it "should convert while convert not base currency to another not base" do
+      fifty_usd_in_gbp = @fifty_usd.convert_to('GBP')
+      expect(fifty_usd_in_gbp.inspect).to eq '43.02 GBP'
+    end
+
+    it "should convert while convert currency to same currency" do
+      fifty_eur_in_eur = @fifty_eur.convert_to('EUR') # => 50.00 EUR
+      expect(fifty_eur_in_eur.inspect).to eq '50.00 EUR'
     end
   end
 
